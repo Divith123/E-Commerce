@@ -6,6 +6,7 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 import { DashboardSidebar } from "@/components";
 import { isValidEmailAddressFormat, isValidNameOrLastname } from "@/lib/utils";
+import * as XLSX from "xlsx";
 
 interface Product {
   id: string;
@@ -51,6 +52,7 @@ interface Order {
 const AdminSingleOrder = () => {
   const [order, setOrder] = useState<Order | null>(null);
   const [orderProducts, setOrderProducts] = useState<OrderProduct[]>([]);
+  const [allOrders, setAllOrders] = useState<Order[]>([]);
   const params = useParams<{ id: string }>();
   const router = useRouter();
 
@@ -82,11 +84,26 @@ const AdminSingleOrder = () => {
     }
   };
 
+  // Fetch all orders
+  const fetchAllOrders = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/orders`);
+      if (!response.ok) {
+        throw new Error("Error fetching all orders.");
+      }
+      const data: Order[] = await response.json();
+      setAllOrders(data);
+    } catch (error) {
+      toast.error("There was a problem fetching all orders.");
+    }
+  };
+
   useEffect(() => {
     if (params?.id) {
       fetchOrderData(params.id);
       fetchOrderProducts(params.id);
     }
+    fetchAllOrders();
   }, [params?.id]);
 
   const updateOrder = async () => {
@@ -191,6 +208,30 @@ const AdminSingleOrder = () => {
     }
   };
 
+  const downloadExcel = () => {
+    const ws = XLSX.utils.json_to_sheet([
+      {
+        ...order,
+        products: orderProducts.map(op => ({
+          productId: op.product.id,
+          title: op.product.title,
+          quantity: op.quantity,
+          price: op.product.price,
+        })),
+      },
+    ]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "OrderDetails");
+    XLSX.writeFile(wb, "order_details.xlsx");
+  };
+
+  const downloadAllOrdersExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(allOrders);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "AllOrders");
+    XLSX.writeFile(wb, "all_orders.xlsx");
+  };
+
   if (!order) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
@@ -211,6 +252,15 @@ const AdminSingleOrder = () => {
           <h1 className="text-2xl font-semibold text-gray-700">
             Order Details
           </h1>
+          <div className="flex gap-4">
+            <button
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-semibold transition-colors"
+              onClick={downloadExcel}
+            >
+              Download XLS
+            </button>
+  
+          </div>
         </div>
 
         {/* Order Information */}
@@ -478,4 +528,4 @@ const AdminSingleOrder = () => {
   );
 };
 
-export default AdminSingleOrder;  
+export default AdminSingleOrder;

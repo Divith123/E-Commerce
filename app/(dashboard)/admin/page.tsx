@@ -75,7 +75,9 @@ const AdminDashboardPage = () => {
           </div>
         </div>
         <div className="mt-5 xl:ml-5 w-full max-xl:mt-5 text-center">
-          <h4 className="text-3xl text-center mb-5">Visitors by Date</h4>
+          <h4 className="text-3xl text-center mb-5">
+            Visitors by Date
+          </h4>
           <input
             type="date"
             className="p-2 rounded-md text-black border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -83,7 +85,7 @@ const AdminDashboardPage = () => {
             onChange={handleDateChange}
           />
           <div className="mt-4 w-full">
-            {Array.isArray(visitorsByDate) && visitorsByDate.length > 0 ? (
+            {visitorsByDate && visitorsByDate.length ? (
               <table className="table table-md table-pin-cols">
                 {/* Head */}
                 <thead>
@@ -136,7 +138,7 @@ const AdminDashboardPage = () => {
           </div>
         </div>
         <div className="flex justify-center gap-4 mt-4 w-full">
-          {Array.isArray(visitorsByDate) && visitorsByDate.length > 0 ? (
+          {visitorsByDate && visitorsByDate.length ? (
             <>
               <button
                 className="px-4 py-2 bg-gray-300 rounded-md shadow hover:bg-gray-400 disabled:opacity-50"
@@ -156,7 +158,9 @@ const AdminDashboardPage = () => {
                 Next
               </button>
             </>
-          ) : null}
+          ) : (
+            null
+          )}
         </div>
       </div>
     </div>
