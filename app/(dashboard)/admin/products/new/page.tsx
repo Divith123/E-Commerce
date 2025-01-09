@@ -31,18 +31,23 @@ const AddNewProduct = () => {
     categoryId: "",
   });
   const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // Fetch categories and set a default
   const fetchCategories = async () => {
-    fetch(`http://localhost:3001/api/categories`)
-      .then((res) => res.json())
-      .then((data) => {
-        setCategories(data);
-        setProduct((prev) => ({
-          ...prev,
-          categoryId: data[0]?.id || "",
-        }));
-      });
+    try {
+      const response = await fetch(`http://localhost:3001/api/categories`);
+      const data = await response.json();
+      setCategories(data);
+      setProduct((prev) => ({
+        ...prev,
+        categoryId: data[0]?.id || "",
+      }));
+    } catch (error) {
+      toast.error("There was a problem fetching categories.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -67,14 +72,9 @@ const AddNewProduct = () => {
       body: JSON.stringify(product),
     };
 
-    fetch(`http://localhost:3001/api/products`, requestOptions)
-      .then((response) => {
-        if (response.status === 201) {
-          return response.json();
-        }
-        throw new Error("There was an error while creating the product");
-      })
-      .then(() => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/products`, requestOptions);
+      if (response.status === 201) {
         toast.success("Product added successfully");
         setProduct({
           title: "",
@@ -86,10 +86,12 @@ const AddNewProduct = () => {
           slug: "",
           categoryId: categories[0]?.id || "",
         });
-      })
-      .catch(() => {
-        toast.error("Error while creating the product");
-      });
+      } else {
+        throw new Error("There was an error while creating the product");
+      }
+    } catch (error) {
+      toast.error("Error while creating the product");
+    }
   };
 
   // Handle file upload
@@ -107,35 +109,40 @@ const AddNewProduct = () => {
         // Optionally, handle the uploaded file info
         await response.json();
       } else {
-        console.error("File upload was unsuccessful");
+        toast.error("File upload was unsuccessful");
       }
     } catch (error) {
-      console.error("Error occurred while uploading file:", error);
+      toast.error("Error occurred while uploading file");
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
+
   return (
-    <div
-      className="bg-gradient-to-tr from-orange-200 to-orange-300 min-h-screen flex max-w-screen-2xl mx-auto 
-        xl:h-full max-xl:flex-col max-xl:gap-y-5 p-5 transition-all duration-300"
-    >
+    <div className="bg-white min-h-screen flex max-w-screen-2xl mx-auto xl:h-full max-xl:flex-col max-xl:gap-y-5 p-5 transition-all duration-300">
       <DashboardSidebar />
       <div className="flex flex-col gap-y-7 w-full xl:ml-5 max-xl:px-5">
-        <h1 className="text-3xl font-bold text-orange-900 drop-shadow-sm mb-2">
+        <h1 className="text-3xl font-bold text-gray-900 drop-shadow-sm mb-2">
           Add New Product
         </h1>
         <div className="flex flex-wrap gap-5">
           {/* Left Column */}
           <div className="flex flex-col gap-y-5">
-            <label className="form-control w-full max-w-xs bg-orange-50 p-3 rounded-md shadow">
+            <label className="form-control w-full max-w-xs bg-gray-50 p-3 rounded-md shadow">
               <div className="label mb-1">
-                <span className="label-text font-semibold text-orange-800">
+                <span className="label-text font-semibold text-gray-800">
                   Product name:
                 </span>
               </div>
               <input
                 type="text"
-                className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-orange-600"
+                className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
                 value={product.title}
                 onChange={(e) =>
                   setProduct({ ...product, title: e.target.value })
@@ -143,15 +150,15 @@ const AddNewProduct = () => {
               />
             </label>
 
-            <label className="form-control w-full max-w-xs bg-orange-50 p-3 rounded-md shadow">
+            <label className="form-control w-full max-w-xs bg-gray-50 p-3 rounded-md shadow">
               <div className="label mb-1">
-                <span className="label-text font-semibold text-orange-800">
+                <span className="label-text font-semibold text-gray-800">
                   Product slug:
                 </span>
               </div>
               <input
                 type="text"
-                className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-orange-600"
+                className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
                 value={convertSlugToURLFriendly(product.slug)}
                 onChange={(e) =>
                   setProduct({
@@ -162,14 +169,14 @@ const AddNewProduct = () => {
               />
             </label>
 
-            <label className="form-control w-full max-w-xs bg-orange-50 p-3 rounded-md shadow">
+            <label className="form-control w-full max-w-xs bg-gray-50 p-3 rounded-md shadow">
               <div className="label mb-1">
-                <span className="label-text font-semibold text-orange-800">
+                <span className="label-text font-semibold text-gray-800">
                   Category:
                 </span>
               </div>
               <select
-                className="select select-bordered w-full focus:outline-none focus:ring-2 focus:ring-orange-600"
+                className="select select-bordered w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
                 value={product.categoryId}
                 onChange={(e) =>
                   setProduct({ ...product, categoryId: e.target.value })
@@ -183,15 +190,15 @@ const AddNewProduct = () => {
               </select>
             </label>
 
-            <label className="form-control w-full max-w-xs bg-orange-50 p-3 rounded-md shadow">
+            <label className="form-control w-full max-w-xs bg-gray-50 p-3 rounded-md shadow">
               <div className="label mb-1">
-                <span className="label-text font-semibold text-orange-800">
+                <span className="label-text font-semibold text-gray-800">
                   Product price:
                 </span>
               </div>
               <input
                 type="number"
-                className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-orange-600"
+                className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
                 value={product.price}
                 onChange={(e) =>
                   setProduct({ ...product, price: Number(e.target.value) })
@@ -199,15 +206,15 @@ const AddNewProduct = () => {
               />
             </label>
 
-            <label className="form-control w-full max-w-xs bg-orange-50 p-3 rounded-md shadow">
+            <label className="form-control w-full max-w-xs bg-gray-50 p-3 rounded-md shadow">
               <div className="label mb-1">
-                <span className="label-text font-semibold text-orange-800">
+                <span className="label-text font-semibold text-gray-800">
                   Manufacturer:
                 </span>
               </div>
               <input
                 type="text"
-                className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-orange-600"
+                className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
                 value={product.manufacturer}
                 onChange={(e) =>
                   setProduct({ ...product, manufacturer: e.target.value })
@@ -218,14 +225,14 @@ const AddNewProduct = () => {
 
           {/* Right Column */}
           <div className="flex flex-col gap-y-5">
-            <label className="form-control w-full max-w-xs bg-orange-50 p-3 rounded-md shadow">
+            <label className="form-control w-full max-w-xs bg-gray-50 p-3 rounded-md shadow">
               <div className="label mb-1">
-                <span className="label-text font-semibold text-orange-800">
+                <span className="label-text font-semibold text-gray-800">
                   In stock?
                 </span>
               </div>
               <select
-                className="select select-bordered w-full focus:outline-none focus:ring-2 focus:ring-orange-600"
+                className="select select-bordered w-full focus:outline-none focus:ring-2 focus:ring-gray-600"
                 value={product.inStock}
                 onChange={(e) =>
                   setProduct({ ...product, inStock: Number(e.target.value) })
@@ -236,17 +243,17 @@ const AddNewProduct = () => {
               </select>
             </label>
 
-            <div className="bg-orange-50 p-3 rounded-md shadow w-full max-w-xs">
+            <div className="bg-gray-50 p-3 rounded-md shadow w-full max-w-xs">
               <label className="form-control">
                 <div className="label mb-1">
-                  <span className="label-text font-semibold text-orange-800">
+                  <span className="label-text font-semibold text-gray-800">
                     Upload main image:
                   </span>
                 </div>
                 <input
                   type="file"
                   className="file-input file-input-bordered file-input-lg w-full
-                    max-w-xs focus:outline-none focus:ring-2 focus:ring-orange-600"
+                    max-w-xs focus:outline-none focus:ring-2 focus:ring-gray-600"
                   onChange={(e) => {
                     if (e.target.files?.[0]) {
                       uploadFile(e.target.files[0]);
@@ -263,7 +270,7 @@ const AddNewProduct = () => {
                   <Image
                     src={`/${product.mainImage}`}
                     alt={product.title}
-                    className="w-auto h-auto rounded-md border-2 border-orange-400"
+                    className="w-auto h-auto rounded-md border-2 border-gray-400"
                     width={100}
                     height={100}
                   />
@@ -271,14 +278,14 @@ const AddNewProduct = () => {
               )}
             </div>
 
-            <label className="form-control w-full bg-orange-50 p-3 rounded-md shadow">
+            <label className="form-control w-full bg-gray-50 p-3 rounded-md shadow">
               <div className="label mb-1">
-                <span className="label-text font-semibold text-orange-800">
+                <span className="label-text font-semibold text-gray-800">
                   Product description:
                 </span>
               </div>
               <textarea
-                className="textarea textarea-bordered w-full h-24 focus:outline-none focus:ring-2 focus:ring-orange-600"
+                className="textarea textarea-bordered w-full h-24 focus:outline-none focus:ring-2 focus:ring-gray-600"
                 value={product.description}
                 onChange={(e) =>
                   setProduct({ ...product, description: e.target.value })
@@ -292,9 +299,9 @@ const AddNewProduct = () => {
           <button
             onClick={addProduct}
             type="button"
-            className="uppercase bg-orange-500 text-white px-10 py-4 text-lg border 
-              border-orange-500 font-bold shadow-md hover:bg-orange-600 
-              focus:outline-none focus:ring-2 focus:ring-orange-700 
+            className="uppercase bg-gray-800 text-white px-10 py-4 text-lg border
+              border-gray-800 font-bold shadow-md hover:bg-gray-900
+              focus:outline-none focus:ring-2 focus:ring-gray-700
               transition-all transform hover:scale-105"
           >
             Add product
