@@ -60,7 +60,7 @@ const DashboardSidebar = () => {
   return (
     // Container for the sidebar with fixed positioning and gradient background
     <div
-      className={`fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-blue-500 to-blue-700 h-full p-4
+      className={`fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-orange-500 to-orange-700 h-full p-4
                   transition-transform transform ${
                     isSidebarOpen ? "translate-x-0" : "-translate-x-full"
                   }
@@ -80,7 +80,7 @@ const DashboardSidebar = () => {
           <Link key={index} href={item.href}>
             {/* Apply styles directly to the Link component */}
             <div className="flex items-center p-3 text-white rounded-lg transition-colors 
-                      hover:bg-blue-600 transform hover:scale-105 cursor-pointer">
+                      hover:bg-orange-600 transform hover:scale-105 cursor-pointer">
               {/* Icon for the sidebar item */}
               <span className="text-xl">{item.icon}</span>
               {/* Label for the sidebar item */}
@@ -94,3 +94,4 @@ const DashboardSidebar = () => {
 };
 
 export default DashboardSidebar;
+  
