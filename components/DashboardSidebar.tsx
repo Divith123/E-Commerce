@@ -89,13 +89,6 @@ const DashboardSidebar = () => {
           </Link>
         ))}
       </nav>
-
-      {/* Sidebar Footer with Logout Button */}
-      <div className="absolute bottom-4 w-full px-4">
-        <button className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-lg transition-colors">
-          Logout
-        </button>
-      </div>
     </div>
   );
 };
