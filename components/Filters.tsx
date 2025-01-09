@@ -119,7 +119,7 @@ const Filters = () => {
               })
             }
           />
-          <span>{`Max price: $${inputCategory.priceFilter.value}`}</span>
+          <span>{`Max price: ₹${inputCategory.priceFilter.value}`}</span>
         </div>
       </div>
 

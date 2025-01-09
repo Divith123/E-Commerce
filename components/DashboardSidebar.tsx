@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdCategory } from "react-icons/md";
 import { FaTable, FaRegUser, FaGear, FaBagShopping, FaBars } from "react-icons/fa6";
-import { MdCategory } from "react-icons/md";
 import Link from "next/link";
 
 // Define sidebar items as an array of objects for easier management
@@ -59,8 +58,15 @@ const DashboardSidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="xl:w-[300px] bg-blue-500 h-full p-4">
-      {/* Hamburger Icon for mobile */}
+    // Container for the sidebar with fixed positioning and gradient background
+    <div
+      className={`fixed inset-y-0 left-0 w-64 bg-gradient-to-b from-blue-500 to-blue-700 h-full p-4
+                  transition-transform transform ${
+                    isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+                  }
+                  lg:translate-x-0`}
+    >
+      {/* Hamburger Icon for mobile view to toggle sidebar */}
       <div className="flex items-center lg:hidden mb-4">
         <FaBars
           className="text-2xl text-white cursor-pointer"
@@ -68,27 +74,25 @@ const DashboardSidebar = () => {
         />
       </div>
 
-      {/* Sidebar Content */}
-      <div
-        className={`flex-col gap-y-2 lg:flex-row lg:items-center lg:gap-y-0 ${
-          isSidebarOpen ? "block" : "hidden"
-        } lg:block`}
-      >
+      {/* Navigation Links */}
+      <nav className="flex flex-col space-y-2">
         {sidebarItems.map((item, index) => (
           <Link key={index} href={item.href}>
-            <div
-              className="flex gap-x-2 w-full hover:bg-blue-600 cursor-pointer items-center py-4 pl-4 text-xl text-white rounded-lg"
-            >
-              {item.icon}{" "}
-              <span className="font-normal">{item.label}</span>
+            {/* Apply styles directly to the Link component */}
+            <div className="flex items-center p-3 text-white rounded-lg transition-colors 
+                      hover:bg-blue-600 transform hover:scale-105 cursor-pointer">
+              {/* Icon for the sidebar item */}
+              <span className="text-xl">{item.icon}</span>
+              {/* Label for the sidebar item */}
+              <span className="ml-3 font-medium">{item.label}</span>
             </div>
           </Link>
         ))}
-      </div>
+      </nav>
 
-      {/* Sidebar Footer */}
-      <div className="lg:hidden mt-auto p-4">
-        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+      {/* Sidebar Footer with Logout Button */}
+      <div className="absolute bottom-4 w-full px-4">
+        <button className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-lg transition-colors">
           Logout
         </button>
       </div>

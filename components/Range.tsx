@@ -28,7 +28,7 @@ const Range = ({ min, max, priceValue, setInputCategory } : RangeProps) => {
   return (
     <div>
         <input type="range" min={min} max={max} value={priceValue} className="range range-warning" />
-        <span>{ `Max price: $${currentRangeValue}` }</span>
+        <span>{ `Max price: ₹${currentRangeValue}` }</span>
     </div>
   )
 }

@@ -53,7 +53,7 @@ const ProductItem = ({
             : "text-lg text-white font-semibold"
         }
       >
-        ${product.price}
+        ₹{product.price}
       </p>
 
       <ProductItemRating productRating={product?.rating} />
