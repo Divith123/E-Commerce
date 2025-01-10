@@ -12,6 +12,7 @@
 import React, { useEffect } from "react";
 import { navigation } from "@/lib/utils";
 import Image from "next/image";
+import Link from 'next/link';
 
 const Footer = () => {
 
@@ -50,95 +51,64 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="bg-white" aria-labelledby="footer-heading">
-      <div>
-        <h2 id="footer-heading" className="sr-only">
-          Footer
-        </h2>
-        <div className="mx-auto max-w-screen-2xl px-6 lg:px-8 pt-24 pb-14">
-          <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-            <Image
-              src="/logo v1.png"
-              alt="Singitronic logo"
-              width={250}
-              height={250}
-              className="h-auto w-auto"
-            />
-            <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-              <div className="md:grid md:grid-cols-2 md:gap-8">
-                <div>
-                  <h3 className="text-lg font-bold leading-6 text-blue-600">
-                    Sale
-                  </h3>
-                  <ul role="list" className="mt-6 space-y-4">
-                    {navigation.sale.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className="text-sm leading-6 text-black hover:text-gray-700"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="mt-10 md:mt-0">
-                  <h3 className="text-base font-bold leading-6 text-blue-600">
-                    About Us
-                  </h3>
-                  <ul role="list" className="mt-6 space-y-4">
-                    {navigation.about.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className="text-sm leading-6 text-black hover:text-gray-700"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <div className="md:grid md:grid-cols-2 md:gap-8">
-                <div>
-                  <h3 className="text-base font-bold leading-6 text-blue-600">
-                    Buying
-                  </h3>
-                  <ul role="list" className="mt-6 space-y-4">
-                    {navigation.buy.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className="text-sm leading-6 text-black hover:text-gray-700"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="mt-10 md:mt-0">
-                  <h3 className="text-base font-bold leading-6 text-blue-600">
-                    Support
-                  </h3>
-                  <ul role="list" className="mt-6 space-y-4">
-                    {navigation.help.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className="text-sm leading-6 text-black hover:text-gray-700"
-                        >
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+    <footer className="bg-gray-900 text-white pt-12 pb-8" aria-labelledby="footer-heading">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="md:col-span-1">
+            <div className="flex items-center ml-[-10px]">
+              <Image
+                src="/logo.png"
+                alt="Company Logo"
+                width={40}
+                height={40}
+                className="h-auto w-auto"
+              />
+              <Image
+                src="/logoname.png"
+                alt="Company Name"
+                width={130}
+                height={40}
+                className="h-auto w-auto ml-2"
+              />
             </div>
+            <p className="mt-4 text-sm">
+              VELLGRO Ads, 23 Aadis street<br />
+              Near Nehru Stadium, Coimbatore - 641018<br />
+              Tamil Nadu, India.
+            </p>
           </div>
+
+          <div className="md:col-span-1">
+            <h3 className="text-lg font-semibold mb-4 text-orange-400">Quick Links</h3>
+            <ul className="space-y-2">
+              <li><Link href="/" className="hover:text-orange-400">Home</Link></li>
+              <li><Link href="/shop" className="hover:text-orange-400">Shop</Link></li>
+              <li><Link href="/about" className="hover:text-orange-400">About us</Link></li>
+              <li><Link href="/contact" className="hover:text-orange-400">Contact us</Link></li>
+            </ul>
+          </div>
+
+          <div className="md:col-span-1">
+            <h3 className="text-lg font-semibold mb-4 text-orange-400">Categories</h3>
+            <ul className="space-y-2">
+              <li><Link href="/shop" className="hover:text-orange-400">Visiting Card Printing</Link></li>
+              <li><Link href="/shop" className="hover:text-orange-400">Stationery Printing</Link></li>
+              <li><Link href="/shop" className="hover:text-orange-400">Marketing Products</Link></li>
+              <li><Link href="/shop" className="hover:text-orange-400">Gift Articles</Link></li>
+            </ul>
+          </div>
+
+          <div className="md:col-span-1">
+            <h3 className="text-lg font-semibold mb-4 text-orange-400">Contact Info</h3>
+            <ul className="space-y-2">
+              <li>Phone: +91 73977 76898</li>
+              <li>Office: +91 98943 35516</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t border-gray-700 mt-8 pt-8 text-center">
+          <p className="text-sm">Copyright © 2025 VELLGROAds. All rights reserved.</p>
         </div>
       </div>
     </footer>

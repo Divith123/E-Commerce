@@ -64,7 +64,7 @@ const Contact = () => {
         {/* Embedded Map */}
         <div className="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.1123684046085!2d76.95813731474925!3d11.016735892155644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba859af2f971cb5%3A0x2f3bb0b7f5f3aa0c!2sPrint%20Hub!5e0!3m2!1sen!2sin!4v1620898251881!5m2!1sen!2sin"
+            src="https://www.google.com/maps/embed?pb=!1m24!1m12!1m3!1d244.7784948300339!2d76.96835252276136!3d11.00437956069916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m9!3e0!4m3!3m2!1d11.004364899999999!2d76.9683513!4m3!3m2!1d11.004370699999999!2d76.96834249999999!5e0!3m2!1sen!2sin!4v1736514417767!5m2!1sen!2sin"
             width="100%"
             height="400"
             style={{ border: 0 }}

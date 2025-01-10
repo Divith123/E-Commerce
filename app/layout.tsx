@@ -7,9 +7,6 @@ import Providers from "@/Providers";
 import { getServerSession } from "next-auth";
 import 'svgmap/dist/svgMap.min.css';
 
-
-
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -26,15 +23,17 @@ export default async function RootLayout({
   const session = await getServerSession();
   return (
     <html lang="en" data-theme="light">
-      <body className={inter.className}>
-      <SessionProvider session={session}>
-        <Header />
-        <Providers>
-        {children}
-        </Providers>
-        <Footer />
-      </SessionProvider>
-        </body>
+      <body className={`flex flex-col min-h-screen ${inter.className}`}>
+        <SessionProvider session={session}>
+          <Header />
+          <div className="flex-grow">
+            <Providers>
+              {children}
+            </Providers>
+          </div>
+          <Footer />
+        </SessionProvider>
+      </body>
     </html>
   );
 }
