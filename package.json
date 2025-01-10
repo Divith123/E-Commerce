@@ -22,6 +22,7 @@
     "flowbite-react": "^0.7.2",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
+    "lucide-react": "^0.469.0",
     "nanoid": "^5.0.6",
     "next": "14.1.0",
     "next-auth": "^4.24.6",
